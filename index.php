@@ -1,4 +1,4 @@
 <?php
-
-
+/* bcheck index.php
+ */
 ?>
