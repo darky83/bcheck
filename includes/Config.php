@@ -1,15 +1,16 @@
 <?php
 	class Config {
 		//Database
-		public static $dbServer = "localhost";
-		public static $dbUsername = "root";
-		public static $dbPassword = "@nc13nt";
-		public static $dbDatabase = "bcheckerv2";
+		public static $dbServer = "localhost";	# Server address
+		public static $dbUsername = "";		# DB Username
+		public static $dbPassword = "";		# DB Password
+		public static $dbDatabase = "";		# Database
 		//mailbox
-		public static $mailServer = "192.168.30.100";
-		public static $mailPort = "143";
-		public static $mailBox = "INBOX";
-		public static $mailUser = "tbox";
-		public static $mailPassword = "TB0x123";
+		public static $mailServer = "";		# Server address
+		public static $mailPort = "";		# Port number
+		public static $mailFolder = "";		# Including leading slash
+		public static $mailUser = "";		# Username
+		public static $mailPassword = "";	# Password
+		//Exchange server 2010 example: exchange.voicedatabridge.com:993/novalidate-cert/ssl
 	}
 ?>

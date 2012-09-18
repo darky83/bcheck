@@ -83,8 +83,11 @@ class MailBox {
 	  * Opens the mailbox and returns a new inbox object.
 	  */ 
 	 private function open() {
-	 	return imap_open("\{$this->mAddress\:$this->mPort\}$this->mFolder", $this->mUsername, $this->mPassword);
-	 }
+		$serveraddress = "{%s:%s%s}";
+                $serveraddress = sprintf($serveraddress, $this->mAddress, $this->mPort, $this->mFolder);
+                return imap_open($serveraddress, $this->mUsername, $this->mPassword, NULL, 1, array('DISABLE_AUTHENTICATOR' => 'GSSAPI'));
+ 
+	}
 	 
 	 /**
 	  * Closes the given mailbox..
