@@ -14,7 +14,7 @@ class ProcessBackupMailBox {
 		LoggerManager::writeInfo("Start proccssing all new messages.");
 		
 		//Create a new mailbox.
-		$box = new MailBox(Config::$mailServer, Config::$mailPort, Config::$mailBox, Config::$mailUser, Config::$mailPassword);
+		$box = new MailBox(Config::$mailServer, Config::$mailPort, Config::$mailFolder, Config::$mailUser, Config::$mailPassword);
 		
 		//Retrieve all messages.
 		$messages = $box->readMessages();
