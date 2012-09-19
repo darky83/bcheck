@@ -3,3 +3,10 @@ Backup checker
 Processes the status of a backup mail report.
 
 PHP
+
+== TODO ==
+
+- save mails in DB
+- Frontend interface (with user authentication)
+- Backend interface (with user authentication)
+
