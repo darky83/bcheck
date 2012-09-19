@@ -40,7 +40,7 @@ class ProcessBackupMailBox {
 	 * Process all new backup mails located in the mailbox.
 	 */
 	public static function process() {
-		LoggerManager::writeInfo("Start proccessing all new messages.");
+		LoggerManager::writeInfo("Start proccssing all new messages.");
 		
 		//Create a new mailbox.
 		$box = new MailBox(Config::$mailServer, Config::$mailPort, Config::$mailBox, Config::$mailUser, Config::$mailPassword);

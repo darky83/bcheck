@@ -56,17 +56,35 @@ class MySqlConnector {
 	
 	/**
 	 * Execute a query without expecting result.
-	 * @param string $query Query to excecute.
+	 * @param string $query Query to execute.
 	 */
 	public function queryNonResult($query) {
 		$conn = $this->open();
 		//Excecute query.
 		if(mysql_query($query) == false) {
-			LoggerManager::writeEx('Failed to execute non result mysql query: '. mysql_error());
+			LoggerManager::writeEx("Failed to execute non result mysql query: $query. Error: ". mysql_error());
 			$this->close($conn);
 			die('Failed to execute non result mysql query.');
 		}
 		$this->close($conn);
+	}
+	
+	/**
+	 * Execute a query returning the last auto inc id.
+	 * @param string $query Quer to execute.
+	 * @return Returns the last auto inc id.
+	 */
+	public function queryLastAutoIncId($query) {
+		$conn = $this->open();
+		//Excecute query.
+		if(mysql_query($query) == false) {
+			LoggerManager::writeEx("Failed to execute non result (returning last autoInc id) mysql query: $query. Error: ". mysql_error());
+			$this->close($conn);
+			die('Failed to execute non result mysql query.');
+		}
+		$returnId = mysql_insert_id(); 	//Get the last auto inc id.
+		$this->close($conn); 			//Close the connection.
+		return $returnId;
 	}
 	
 	/**
@@ -80,12 +98,12 @@ class MySqlConnector {
 			$returnArr = array();
 			while($fetched = mysql_fetch_assoc($res)) {
 				array_push($returnArr, $fetched);
-				return $returnArr;
 			}
 			$this->close($conn);
+			return $returnArr;
 		}
 		else {
-			LoggerManager::writeEx('Failed to execute result mysql query: '. mysql_error());
+			LoggerManager::writeEx("Failed to execute result mysql query: $query. Error: ". mysql_error());
 			$this->close($conn);
 			die('Failed to execute result mysql query.');
 		}

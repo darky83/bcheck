@@ -1,8 +1,5 @@
 <?php
 
-include_once 'includes/Config.php';
-include_once dirname(__FILE__) .'/helpers/mySql/SimpleORM.php';
-
 /**
  * Backup validator class. Object containing the regex to judge a message.
  * @author Robin Heemskerk
@@ -13,6 +10,7 @@ class BackupValidator {
 	public $backupType;
 	public $successRegex;
 	public $failureRegex;
+	public $backupServerId;
 	
 	private static $mOrm;
 	private static function getOrm() {
@@ -56,7 +54,7 @@ class BackupValidator {
 	 * @param string $text Text to match.
 	 */
 	public function validate($text) {
-		if(count(preg_match($this->successRegex, $text)) <= 0) {
+		if(count(preg_match($this->successRegex, $text)) > 0) {
 			return true;
 		}
 		elseif(count(preg_match($this->failureRegex, $text)) > 0) {

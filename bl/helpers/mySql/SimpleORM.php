@@ -55,8 +55,8 @@ class SimpleORM {
 		//finish with an )
 		$sql .= ")";
 		
-		echo $sql;
-		$this->mSqlConnector->queryNonResult($sql);
+		//Insert and set the new id.
+		$instance->{$this->mPrimKeyName} = $this->mSqlConnector->queryLastAutoIncId($sql);
 	}
 	
 	/**
@@ -73,8 +73,7 @@ class SimpleORM {
 		
 		//remove last ', '
 		$sql = substr_replace($sql, "", strlen($sql) -2, 2);
-		$sql .= "WHERE $this->mPrimKeyName = " .$instance->{$this->mPrimKeyName};
-		$this->mSqlConnector->queryNonResult($sql);
+		$sql .= "WHERE $this->mPrimKeyName = " .$instance->{$this->mPrimKeyName};		
 	}
 	
 	/**
@@ -89,6 +88,8 @@ class SimpleORM {
 		else {
 			$this->insert($instance);
 		}
+		
+		
 	}
 	
 	/**
@@ -137,15 +138,17 @@ class SimpleORM {
 	}
 	
 	/**
-	 * Get all based on a WHERE clause (without the WHERE).
+	 * Get all based on a WHERE clause (without WHERE clause). (creates an assoc array where the id is the key).
 	 * @param string $condition WHERE clause
 	 */
 	public function getAll($condition) {
-		$res = $this->mSqlConnector->queryWithResult("SELECT * FROM $this->mTableName WHERE $condition");
+		$res = $this->mSqlConnector->queryWithResult("SELECT * FROM $this->mTableName $condition");
 		$returnArr = array();
-		
-		foreach($res as $row) {
-			array_push($returnArr, $this->map($row));
+
+		if(count($res) > 0) {
+			foreach($res as $row) {
+				array_push($returnArr, $this->map($row));
+			}
 		}
 		return $returnArr;
 	}

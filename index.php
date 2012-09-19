@@ -3,15 +3,9 @@
  * 
  */
 
-include_once 'bl/mailboxReader/MailBox.php';
-include_once 'bl/helpers/logging/LoggerManager.php';
-include_once 'bl/BackupAttempt.php';
-include_once 'bl/BackupAttempt.php';
-include_once 'bl/BackupValidator.php';
-
 //pop3 110
 //imap 143
-//$box = new MailBox("192.168.30.100", "143", "INBOX", "tbox", "TB0x123");
+//$box = new MailBox("192.168.30.100", "143", "INBOX", "user", "pass");
 //Print all as test.
 //$box->printMailBoxSettings();
 
@@ -22,6 +16,12 @@ function startTimer() {
 	return date('Y-m-d H:i:s m');
 }
 
+include_once 'bl/helpers/logging/LoggerManager.php';
+include_once 'includes/AutoLoader.php';
+
+ProcessBackupMailBox::Process();
+
+/*
 $start = startTimer();
 for($i = 0; $i < 5000; $i++) {
 	$b = new BackupValidator();
@@ -42,9 +42,7 @@ for($i = 0; $i < 5000;$i++) {
 $stop = startTimer();
 
 echo "Started with retrieval on $start and stopped $stop";
-
-
-
+*/
 
 
 /*

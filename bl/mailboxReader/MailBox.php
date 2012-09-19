@@ -31,9 +31,11 @@ class MailBox {
 	 	
 	 	//Push all messages in an array.
 	 	foreach($sorted_mbox as $msgNumber) {
+	 		//get message.
 	 		$message = imap_body($mBox, $msgNumber);
-	 		array_push($returnMessages, array('id' => $msgNumber, 'message' => $message));
-	 		LoggerManager::writeVerbose("Retrieved a new message: $message");
+	 		//get header.
+	 		$header = imap_header($mBox, $msgNumber);
+	 		array_push($returnMessages, array('id' => $msgNumber, 'message' => $message, 'header' => $header));
 	 	}
 	 	
 	 	//close the box.
@@ -66,7 +68,7 @@ class MailBox {
 	 		LoggerManager::writeVerbose("Connected to the mailbox.");
 	 		
 	 		//Get inbox info.
-	 		$checkInfo = imap_mailboxmsginfo($mBox);
+	 		//$checkInfo = imap_mailboxmsginfo($mBox);
 	 		//write verbose info over mailbox.
 	 		LoggerManager::writeVerbose("MailBox: $checkInfo->Mailbox Unread: $checkInfo->Unread Size: $checkInfo->Size");
 	 		
@@ -83,11 +85,8 @@ class MailBox {
 	  * Opens the mailbox and returns a new inbox object.
 	  */ 
 	 private function open() {
-		$serveraddress = "{%s:%s%s}";
-                $serveraddress = sprintf($serveraddress, $this->mAddress, $this->mPort, $this->mFolder);
-                return imap_open($serveraddress, $this->mUsername, $this->mPassword, NULL, 1, array('DISABLE_AUTHENTICATOR' => 'GSSAPI'));
- 
-	}
+	 	return imap_open('{' ."$this->mAddress:$this->mPort" .'}' .$this->mFolder, $this->mUsername, $this->mPassword);
+	 }
 	 
 	 /**
 	  * Closes the given mailbox..
